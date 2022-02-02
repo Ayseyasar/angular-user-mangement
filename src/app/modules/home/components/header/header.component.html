@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <a class="navbar-brand mt-2 mt-lg-0" href="#">
+            <img
+              src="https://asiselektronik.com.tr/images/asis_logo_blue.png"
+              height="30"
+              alt="MDB Logo"
+              loading="lazy"
+            />
+          </a>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="./instrument-panel" routerLinkActive="router-link-active" >Gösterge Paneli</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="./user-list" routerLinkActive="router-link-active">Kullanıcı Listesi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="./map" routerLinkActive="router-link-active">Harita</a>
+            </li>
+          </ul>
+        </div>
+    
+      <div class="d-flex align-items-center">
+        <a class="text-reset me-3" (click)="logout()" style="text-decoration: none; cursor: pointer;">
+            logout
+            <i class="fas fa-sign-out-alt"></i>
+        </a>
+
+      </div>
+    </div>
+</nav>

@@ -1,0 +1,180 @@
+<nav class="navbar navbar-expand-lg" style="background-color: #fffeff;">
+    <div class="container">
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-muted" style="border-right: 1px solid;">
+                        <strong>Users</strong>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-muted">
+                        {{ userData.length }} Total
+                    </a>
+                </li>
+                <li class="nav-item ms-4">
+                    <form class="d-flex input-group w-auto">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                            aria-describedby="search-addon" />
+                        <span class="input-group-text border-0" id="search-addon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <a class="text-reset me-3" style="text-decoration: none;">
+                <button (click)="clickAddUser()" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn"
+                    style="background-color: #ffe2e5; color: #f64e60; border-radius: 10px;">
+                    <b class="p-1">Add User</b>
+                </button>
+                <i class="fas fa-user-plus ms-3" style="color: #26c5c0;"></i>
+            </a>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container py-3">
+    <div class="row">
+        <div *ngFor="let row of userData | paginate: { itemsPerPage: 12, currentPage: page, totalItems: totalLength }" class="col-lg-3">
+            <div class="card card-margin">
+                <div class="card-header no-border d-flex flex-row-reverse">
+                    <button (click)="deleteUser(row)" title="Delete" class="btn btnsame">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button (click)="onEdit(row); undisableTxt();" type="button" title="Edit" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+                        class="btn btnsame mx-1">
+                        <i class="fas fa-user-edit"></i>
+                    </button>
+                    <button (click)="onDetail(row); disableTxt();" type="button" title="Detail" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        class="btn btnsame">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+
+                </div>
+                <div class="card-body pt-0">
+                    <div class="widget-49">
+                        <div class="widget-49-title-wrapper">
+                            <img class="rounded-circle" alt="100x100"
+                                src="{{ row.Avatar }}"
+                                data-holder-rendered="true" style="width: 100px;">
+                            <div class="widget-49-meeting-info">
+                                <span class="widget-49-pro-title"><strong>{{ row.Name }}</strong></span>
+                                <span class="widget-49-meeting-time">{{ row.JobTitle }}</span>
+                            </div>
+                        </div>
+                        <ol class="widget-49-meeting-points list-unstyled">
+                            <div class="my-3">
+                                Contrary to popular belief, Lorem Ipsum is not <span
+                                    style="color: #f64e60;">#XRS-54PQ</span> simply random text.
+                            </div>
+                            <li class="widget-49-meeting-item"><span><b
+                                style="margin-right: 5px;">Email:</b>{{ row.Email }}</span></li>
+                            <li class="widget-49-meeting-item"><span><b
+                                        style="margin-right: 5px;">Phone:</b>{{ row.PhoneNumber }}</span></li>
+                            <li class="widget-49-meeting-item"><span><b
+                                        style="margin-right: 5px;">Location:</b>{{ row.Country }}</span></li>
+                        </ol>
+                        <div class="d-grid gap-2">
+                            <button class="btn" type="button" style="background-color: #c9f7f5; color: #26c5c0;">
+                                <strong>Write Message</strong>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <pagination-controls class="text-center my-pagination" (pageChange)="page = $event"></pagination-controls>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 *ngIf="showAdd" class="modal-title" id="exampleModalLabel">Add User</h5>
+                    <h5 *ngIf="!showAdd" class="modal-title" id="exampleModalLabel">Name Surname</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="formValue">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">ID</label>
+                            <input type="text" formControlName="id" class="form-control" id="exampleInputID"
+                                aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Created At</label>
+                            <input type="text" formControlName="CreatedAt" class="form-control" id="exampleInputCreatedAt">
+                        </div>
+                        <div *ngIf="!showDetail" class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Name</label>
+                            <input type="text" formControlName="Name" class="form-control" id="exampleInputName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Avatar</label>
+                            <input type="text" formControlName="Avatar" class="form-control" id="exampleInputAvatar">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">City</label>
+                            <input type="text" formControlName="City" class="form-control" id="exampleInputCity">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Post Code</label>
+                            <input type="text" formControlName="PostCode" class="form-control" id="exampleInputPostCode">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Job Title</label>
+                            <input type="text" formControlName="JobTitle" class="form-control" id="exampleInputJobTitle">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Phone Number</label>
+                            <input type="text" formControlName="PhoneNumber" class="form-control" id="exampleInputPhoneNumber">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Email</label>
+                            <input type="email" formControlName="Email" class="form-control" id="exampleInputEmail">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Password</label>
+                            <input type="text" formControlName="Password" class="form-control" id="exampleInputPassword">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Latitude</label>
+                            <input type="text" formControlName="Latitude" class="form-control" id="exampleInputLatitude">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Longitude</label>
+                            <input type="text" formControlName="Longitude" class="form-control" id="exampleInputLongitude">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Backgroun Image</label>
+                            <input type="text" formControlName="BackgrounImage" class="form-control" id="exampleInputBackgrounImage">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Vehicle</label>
+                            <input type="text" formControlName="Vehicle" class="form-control" id="exampleInputVehicle">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Birth Date</label>
+                            <input type="text" formControlName="BirthDate" class="form-control" id="exampleInputBirthDate">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Country</label>
+                            <input type="text" formControlName="Country" class="form-control" id="exampleInputCountry">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" (click)="postUserDetails()" *ngIf="showAdd" class="btn btn-primary">Add</button>
+                    <button type="button" (click)="updateUserDetails()" *ngIf="showUpdate" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
